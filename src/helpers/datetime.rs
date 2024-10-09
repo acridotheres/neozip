@@ -26,7 +26,10 @@ pub fn serialize(datetime: &DateTime<Local>) -> (u16, u16) {
     let date = datetime.format("%Y-%m-%d").to_string();
     let time = datetime.format("%H:%M:%S").to_string();
 
-    let y = date[0..4].parse::<u16>().unwrap();
+    let mut y = date[0..4].parse::<u16>().unwrap();
+    if y < 1980 {
+        y = 1980;
+    }
     let m = date[5..7].parse::<u16>().unwrap();
     let d = date[8..10].parse::<u16>().unwrap();
 

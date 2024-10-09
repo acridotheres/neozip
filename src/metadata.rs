@@ -1,4 +1,4 @@
-use crate::{compression::get_method, helpers::datetime, File, Metadata};
+use crate::{helpers::datetime, File, Metadata};
 use dh::{recommended::*, Readable};
 use std::io::Result;
 
@@ -9,7 +9,7 @@ pub fn metadata<'a, T: Readable<'a>>(reader: &mut T) -> Result<Metadata> {
     while signature == 0x504b0304 {
         let version = reader.read_u16le()?;
         let flags = reader.read_u16le()?;
-        let method = get_method(reader.read_u16le()?);
+        let method = reader.read_u16le()?.into();
         let modified_time = reader.read_u16le()?;
         let modified_date = reader.read_u16le()?;
         let crc32 = reader.read_u32le()?;
@@ -38,7 +38,7 @@ pub fn metadata<'a, T: Readable<'a>>(reader: &mut T) -> Result<Metadata> {
         });
 
         reader.jump(compressed_size as i64)?;
-        signature = reader.read_u32be()?;
+        signature = reader.read_u32be().unwrap_or(0);
     }
 
     Ok(Metadata { files })

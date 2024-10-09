@@ -1,5 +1,6 @@
 use crate::compression::Method;
 use chrono::{DateTime, Utc};
+use dh::Readable;
 
 #[derive(Debug, Default)]
 pub struct Metadata {
@@ -19,4 +20,10 @@ pub struct File {
     pub version: u16,
     pub checksum: u32,
     pub extra: Vec<u8>,
+}
+
+#[derive(Debug)]
+pub struct FileSource<'a, T: Readable<'a>> {
+    pub reader: &'a mut T,
+    pub metadata: File,
 }
