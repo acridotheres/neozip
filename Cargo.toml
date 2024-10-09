@@ -2,5 +2,11 @@
 name = "neozip"
 version = "0.1.0"
 edition = "2021"
+license = "MIT"
+authors = ["Leonard Lesinski"]
+description = "The ZIP archive handler used by Acridotheres"
 
 [dependencies]
+chrono = "0.4.38"
+crc32fast = "1.4.2"
+dh = "0.4.0"
