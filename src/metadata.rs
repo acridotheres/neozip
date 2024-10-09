@@ -22,9 +22,11 @@ pub fn metadata<'a, T: Readable<'a>>(reader: &mut T) -> Result<Metadata> {
 
         let offset = reader.pos()?;
 
+        let directory = path.ends_with('/');
         files.push(File {
             offset,
             path,
+            directory,
             size: compressed_size as u64,
             compression: method,
             uncompressed_size: uncompressed_size as u64,

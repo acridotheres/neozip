@@ -66,6 +66,7 @@ fn metadata_002() {
         metadata.files[0].modified.to_rfc3339(),
         "2024-07-13T14:27:00+00:00"
     );
+    assert!(metadata.files[0].directory);
 
     assert_eq!(metadata.files[1].path, "test/test.txt");
     assert_eq!(metadata.files[1].size, 14);

@@ -10,6 +10,7 @@ pub struct Metadata {
 pub struct File {
     pub offset: u64,
     pub path: String,
+    pub directory: bool,
     pub size: u64,
     pub compression: Method,
     pub uncompressed_size: u64,

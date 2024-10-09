@@ -1,3 +1,5 @@
+pub(crate) mod decompressor;
+
 #[derive(Debug, Default, PartialEq, Eq)]
 pub enum Method {
     Stored,
