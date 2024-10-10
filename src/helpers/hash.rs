@@ -2,12 +2,7 @@ use crc32fast::Hasher;
 use dh::{recommended::*, Readable};
 use std::{cmp::min, io::Result};
 
-pub fn hash<'a, T: Readable<'a>>(
-    file: &mut T,
-    offset: &u64,
-    size: &u64,
-    buffer_size: &u64,
-) -> Result<u32> {
+pub fn hash(file: &mut dyn Readable, offset: &u64, size: &u64, buffer_size: &u64) -> Result<u32> {
     let pos_before = file.pos()?;
     file.to(*offset)?;
 

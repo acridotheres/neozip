@@ -2,12 +2,12 @@ use super::Method;
 use dh::{Readable, Writable};
 use std::io::{Error, ErrorKind, Result};
 
-pub fn compress<'a, T: Readable<'a>, U: Writable<'a>>(
-    reader: &mut T,
+pub fn compress<'a>(
+    reader: &mut dyn Readable<'a>,
     offset: u64,
     size: u64,
     method: &Method,
-    target: &mut U,
+    target: &mut dyn Writable<'a>,
     buffer_size: u64,
 ) -> Result<u64> {
     use Method::*;

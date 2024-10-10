@@ -33,8 +33,7 @@ pub struct File {
     pub comment: String,
 }
 
-#[derive(Debug)]
-pub struct FileSource<'a, T: Readable<'a>> {
-    pub reader: &'a mut T,
+pub struct FileSource<'a> {
+    pub reader: &'a mut dyn Readable<'a>,
     pub metadata: File,
 }

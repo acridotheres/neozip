@@ -1,6 +1,6 @@
 use std::{io::Result, path::Path};
 
-use dh::{recommended::*, Readable, Rw, Writable};
+use dh::{recommended::*, Rw, Writable};
 
 use crate::{
     compression::compressor::compress,
@@ -8,9 +8,9 @@ use crate::{
     FileSource,
 };
 
-fn create_file_header<'a, T: Readable<'a>, U: Rw<'a>>(
-    file: &mut FileSource<'a, T>,
-    target: &mut U,
+fn create_file_header<'a, T: Rw<'a>>(
+    file: &mut FileSource<'a>,
+    target: &mut T,
     buffer_size: u64,
 ) -> Result<()> {
     target.write_all(b"PK\x03\x04")?;
@@ -58,9 +58,9 @@ fn create_file_header<'a, T: Readable<'a>, U: Rw<'a>>(
     Ok(())
 }
 
-fn create_central_directory_header<'a, T: Readable<'a>, U: Writable<'a>>(
-    file: &FileSource<'a, T>,
-    target: &mut U,
+fn create_central_directory_header<'a>(
+    file: &FileSource<'a>,
+    target: &mut dyn Writable<'a>,
 ) -> Result<()> {
     target.write_all(b"PK\x01\x02")?;
 
@@ -107,8 +107,8 @@ fn create_central_directory_header<'a, T: Readable<'a>, U: Writable<'a>>(
     Ok(())
 }
 
-fn create_end_of_central_directory<'a, U: Writable<'a>>(
-    target: &mut U,
+fn create_end_of_central_directory(
+    target: &mut dyn Writable,
     disk_number: u16,
     cd_disk_number: u16,
     disk_entries: u16,
@@ -131,9 +131,9 @@ fn create_end_of_central_directory<'a, U: Writable<'a>>(
     Ok(())
 }
 
-pub fn create<'a, T: Readable<'a>, U: Rw<'a>>(
-    mut files: Vec<FileSource<'a, T>>,
-    target: &mut U,
+pub fn create<'a, T: Rw<'a>>(
+    mut files: Vec<FileSource<'a>>,
+    target: &mut T,
     buffer_size: u64,
 ) -> Result<()> {
     for file in &mut files {
@@ -158,19 +158,12 @@ pub fn create<'a, T: Readable<'a>, U: Rw<'a>>(
     Ok(())
 }
 
-pub fn create_fs<'a, T: Readable<'a>, U: AsRef<Path>>(
-    files: Vec<FileSource<'a, T>>,
-    path: U,
-    buffer_size: u64,
-) -> Result<()> {
+pub fn create_fs<T: AsRef<Path>>(files: Vec<FileSource>, path: T, buffer_size: u64) -> Result<()> {
     let mut target = dh::file::open_rw(path)?;
     create(files, &mut target, buffer_size)
 }
 
-pub fn create_buf<'a, T: Readable<'a>>(
-    files: Vec<FileSource<'a, T>>,
-    buffer_size: u64,
-) -> Result<Vec<u8>> {
+pub fn create_buf(files: Vec<FileSource>, buffer_size: u64) -> Result<Vec<u8>> {
     let mut result = dh::data::rw_empty();
     create(files, &mut result, buffer_size)?;
     Ok(dh::data::close(result))

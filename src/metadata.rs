@@ -2,7 +2,7 @@ use crate::{helpers::datetime, File, Metadata};
 use dh::{recommended::*, Readable};
 use std::io::Result;
 
-fn parse_header<'a, T: Readable<'a>>(reader: &mut T, meta: &mut Metadata) -> Result<bool> {
+fn parse_header(reader: &mut dyn Readable, meta: &mut Metadata) -> Result<bool> {
     let signature = match reader.read_u32le() {
         Ok(signature) => signature,
         Err(_) => return Ok(true),
@@ -19,7 +19,7 @@ fn parse_header<'a, T: Readable<'a>>(reader: &mut T, meta: &mut Metadata) -> Res
     }
 }
 
-fn parse_file_header<'a, T: Readable<'a>>(reader: &mut T, meta: &mut Metadata) -> Result<bool> {
+fn parse_file_header(reader: &mut dyn Readable, meta: &mut Metadata) -> Result<bool> {
     let version = reader.read_u16le()?;
     let flags = reader.read_u16le()?;
     let method = reader.read_u16le()?.into();
@@ -55,8 +55,8 @@ fn parse_file_header<'a, T: Readable<'a>>(reader: &mut T, meta: &mut Metadata) -
     Ok(false)
 }
 
-fn parse_central_directory_header<'a, T: Readable<'a>>(
-    reader: &mut T,
+fn parse_central_directory_header(
+    reader: &mut dyn Readable,
     meta: &mut Metadata,
     cdh_counter: &mut u64,
 ) -> Result<bool> {
@@ -87,10 +87,7 @@ fn parse_central_directory_header<'a, T: Readable<'a>>(
     Ok(false)
 }
 
-fn parse_end_of_central_directory<'a, T: Readable<'a>>(
-    reader: &mut T,
-    meta: &mut Metadata,
-) -> Result<bool> {
+fn parse_end_of_central_directory(reader: &mut dyn Readable, meta: &mut Metadata) -> Result<bool> {
     let disk_number = reader.read_u16le()?;
     let cd_disk_number = reader.read_u16le()?;
     let disk_entries = reader.read_u16le()?;
@@ -109,7 +106,7 @@ fn parse_end_of_central_directory<'a, T: Readable<'a>>(
     Ok(true) // this must be the last header
 }
 
-pub fn metadata<'a, T: Readable<'a>>(reader: &mut T) -> Result<Metadata> {
+pub fn metadata(reader: &mut dyn Readable) -> Result<Metadata> {
     let mut meta = Metadata {
         files: vec![],
         ..Default::default()
