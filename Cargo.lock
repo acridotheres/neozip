@@ -81,9 +81,9 @@ dependencies = [
 
 [[package]]
 name = "dh"
-version = "0.5.0"
+version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6878ba57b44c6b66bbdc3c627dee31c56b197c347cf609f21bb27b23138238a4"
+checksum = "e5b57c39302f810b98e019a30ea8f51af7d4b6460cf889113fc555eccca174b2"
 dependencies = [
  "fs4",
 ]
