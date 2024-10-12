@@ -4,9 +4,9 @@ version = 3
 
 [[package]]
 name = "acr"
-version = "0.1.0"
+version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "328cc6e4eb2735e97bc1543d57b6c7b5675460891627a3250e10b4dad5d71fa9"
+checksum = "90bfd361f4fb89ea668ce55bcf5f45453aafe3d4e4da44b9dd9b4e02039fde51"
 dependencies = [
  "chrono",
  "crc32fast",
@@ -181,7 +181,6 @@ name = "neozip"
 version = "0.3.0"
 dependencies = [
  "acr",
- "chrono",
  "dh",
 ]
 

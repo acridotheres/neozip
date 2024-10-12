@@ -1,5 +1,4 @@
-use acr::compression::ZipMethod as Method;
-use chrono::{DateTime, Utc};
+use acr::{compression::ZipMethod as Method, time::UtcTime};
 use dh::Readable;
 
 #[derive(Debug, Default)]
@@ -21,7 +20,7 @@ pub struct File {
     pub size: u64,
     pub compression: Method,
     pub uncompressed_size: u64,
-    pub modified: DateTime<Utc>,
+    pub modified: UtcTime,
     pub flags: u16,
     pub version: u16,
     pub version_by: u16,

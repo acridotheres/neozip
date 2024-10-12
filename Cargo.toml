@@ -7,6 +7,5 @@ authors = ["Leonard Lesinski"]
 description = "The ZIP archive handler used by Acridotheres"
 
 [dependencies]
-chrono = "0.4.38"
 dh = "0.6.1"
-acr = "0.1.0"
+acr = "0.1.1"
