@@ -1,5 +1,6 @@
+use acr::compression::ZipMethod as Method;
 use dh::recommended::*;
-use neozip::{compression::Method, integrity, File, FileSource};
+use neozip::{integrity, File, FileSource};
 
 #[test]
 fn create_000() {

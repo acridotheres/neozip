@@ -1,4 +1,5 @@
-use crate::{compression::decompressor::decompress, File};
+use crate::File;
+use acr::compression::decompressor::decompress;
 use dh::{Readable, Writable};
 use std::io::Result;
 
@@ -8,7 +9,7 @@ pub fn get_content(reader: &mut dyn Readable, file: &File, buffer_size: u64) -> 
         reader,
         file.offset,
         file.size,
-        &file.compression,
+        &file.compression.into(),
         &mut target,
         buffer_size,
     )?;
@@ -20,12 +21,12 @@ pub fn extract_content<'a>(
     target: &mut dyn Writable<'a>,
     file: &File,
     buffer_size: u64,
-) -> Result<()> {
+) -> Result<u64> {
     decompress(
         reader,
         file.offset,
         file.size,
-        &file.compression,
+        &file.compression.into(),
         target,
         buffer_size,
     )

@@ -3,6 +3,18 @@
 version = 3
 
 [[package]]
+name = "acr"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "328cc6e4eb2735e97bc1543d57b6c7b5675460891627a3250e10b4dad5d71fa9"
+dependencies = [
+ "chrono",
+ "crc32fast",
+ "dh",
+ "murmur3",
+]
+
+[[package]]
 name = "android-tzdata"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -159,11 +171,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a7a70ba024b9dc04c27ea2f0c0548feb474ec5c54bba33a7f72f873a39d07b24"
 
 [[package]]
+name = "murmur3"
+version = "0.5.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9252111cf132ba0929b6f8e030cac2a24b507f3a4d6db6fb2896f27b354c714b"
+
+[[package]]
 name = "neozip"
 version = "0.3.0"
 dependencies = [
+ "acr",
  "chrono",
- "crc32fast",
  "dh",
 ]
 

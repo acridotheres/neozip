@@ -1,4 +1,5 @@
-use crate::{helpers::hash::hash, File};
+use crate::File;
+use acr::hash::crc32 as hash;
 use dh::Readable;
 use std::io::Result;
 

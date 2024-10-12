@@ -1,11 +1,8 @@
-pub(crate) mod helpers;
-
 mod content;
 mod create;
 mod metadata;
 mod types;
 
-pub mod compression;
 pub mod integrity;
 
 pub use types::*;

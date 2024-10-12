@@ -1,12 +1,8 @@
-use std::{io::Result, path::Path};
-
+use crate::FileSource;
+use acr::compression::compressor::compress;
+use acr::{hash::crc32 as hash, time::msdos as datetime};
 use dh::{recommended::*, Rw, Writable};
-
-use crate::{
-    compression::compressor::compress,
-    helpers::{datetime, hash::hash},
-    FileSource,
-};
+use std::{io::Result, path::Path};
 
 fn create_file_header<'a, T: Rw<'a>>(
     file: &mut FileSource<'a>,
@@ -45,7 +41,7 @@ fn create_file_header<'a, T: Rw<'a>>(
         file.reader,
         0,
         uncompressed_size,
-        &file.metadata.compression,
+        &file.metadata.compression.into(),
         target,
         buffer_size,
     )?;

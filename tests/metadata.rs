@@ -1,5 +1,6 @@
+use acr::compression::ZipMethod as Method;
 use dh::recommended::*;
-use neozip::{compression::Method, integrity};
+use neozip::integrity;
 
 #[test]
 fn metadata_000() {

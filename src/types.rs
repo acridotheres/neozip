@@ -1,4 +1,4 @@
-use crate::compression::Method;
+use acr::compression::ZipMethod as Method;
 use chrono::{DateTime, Utc};
 use dh::Readable;
 
