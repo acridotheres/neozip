@@ -123,7 +123,7 @@ fn create_end_of_central_directory(
     target.write_u32le(cd_size_offset.0)?;
     target.write_u32le(cd_size_offset.1)?;
     target.write_u16le(comment_length)?;
-    target.write_utf8(&comment.to_string())?;
+    target.write_utf8(comment)?;
     Ok(())
 }
 
