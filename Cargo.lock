@@ -117,9 +117,9 @@ dependencies = [
 
 [[package]]
 name = "dh"
-version = "0.8.0"
+version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "331be32ac5b7c7862c163f07ca1662daf117e1142f21e36f3677d0f6c1629074"
+checksum = "d4670f5a327263b647e2f638ec9ac8730e13c71625020bfabea0ec8a6eb0fbfd"
 
 [[package]]
 name = "digest"
@@ -199,7 +199,7 @@ checksum = "9252111cf132ba0929b6f8e030cac2a24b507f3a4d6db6fb2896f27b354c714b"
 
 [[package]]
 name = "neozip"
-version = "0.3.1"
+version = "0.3.2"
 dependencies = [
  "acr",
  "dh",

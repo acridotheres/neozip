@@ -9,7 +9,8 @@ fn create_file_header<'a, T: Rw<'a>>(
     target: &mut T,
     buffer_size: u64,
 ) -> Result<()> {
-    target.write_all(b"PK\x03\x04")?;
+    let header_start = target.pos()?;
+    target.write_bytes(b"PK\x03\x04")?;
 
     let version = 20;
     let flags = 0;
@@ -39,14 +40,18 @@ fn create_file_header<'a, T: Rw<'a>>(
     let file_start = target.pos()?;
     let compressed_size = compress(
         file.reader,
-        0,
+        file.metadata.offset,
         uncompressed_size,
         &file.metadata.compression.into(),
         target,
         buffer_size,
     )?;
+    file.metadata.size = compressed_size;
+    file.metadata.uncompressed_size = uncompressed_size;
+    file.metadata.offset = header_start;
     let file_end = target.pos()?;
     let crc32 = hash(target, &file_start, &compressed_size, &buffer_size)?;
+    file.metadata.checksum = crc32;
     target.to(crc32_pos)?;
     target.write_u32le(crc32)?;
     target.write_u32le(compressed_size as u32)?;
@@ -58,7 +63,7 @@ fn create_central_directory_header<'a>(
     file: &FileSource<'a>,
     target: &mut dyn Writable<'a>,
 ) -> Result<()> {
-    target.write_all(b"PK\x01\x02")?;
+    target.write_bytes(b"PK\x01\x02")?;
 
     let version = 20;
     let version_by = 20;
@@ -112,7 +117,7 @@ fn create_end_of_central_directory(
     cd_size_offset: (u32, u32),
     comment: &str,
 ) -> Result<()> {
-    target.write_all(b"PK\x05\x06")?;
+    target.write_bytes(b"PK\x05\x06")?;
 
     let comment_length = comment.len() as u16;
 
