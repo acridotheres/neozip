@@ -1,6 +1,6 @@
 [package]
 name = "neozip"
-version = "0.3.2"
+version = "0.3.3"
 edition = "2021"
 license = "MIT"
 authors = ["Leonard Lesinski"]
@@ -8,4 +8,4 @@ description = "The ZIP archive handler used by Acridotheres"
 
 [dependencies]
 dh = "0.8.1"
-acr = "0.3.2"
+acr = "0.4.0"
